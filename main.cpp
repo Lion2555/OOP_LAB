@@ -16,11 +16,11 @@ struct Baggage
 };
 
 Baggage baggages[MAX_BAGGAGES];
-int numbaggages = 0;
+int numBaggages = 0;
 
 void AddBaggage()
 {
-    if (numbaggages < MAX_BAGGAGES)
+    if (numBaggages < MAX_BAGGAGES)
     {
         Baggage newBaggage;
         cout << "Enter owner Name: ";
@@ -31,7 +31,7 @@ void AddBaggage()
         cin >> newBaggage.numberOfSeats;
         cout << "Enter flight: ";
         cin >> newBaggage.flight;
-        baggages[numbaggages++] = newBaggage;
+        baggages[numBaggages++] = newBaggage;
         cout << "you have successfully added your Baggage. \n";
     }
     else
@@ -42,7 +42,7 @@ void AddBaggage()
 
 void ModifyBaggage(string ownerName)
 {
-    for (int i = 0; i < numbaggages; ++i)
+    for (int i = 0; i < numBaggages; ++i)
     {
         if (baggages[i].ownerName == ownerName)
         {
@@ -61,12 +61,12 @@ void ModifyBaggage(string ownerName)
 
 void DeleteBaggage(string ownerName)
 {
-    for (int i = 0; i < numbaggages; ++i)
+    for (int i = 0; i < numBaggages; ++i)
     {
         if (baggages[i].ownerName == ownerName)
         {
-            baggages[i] = baggages[numbaggages - 1];
-            --numbaggages;
+            baggages[i] = baggages[numBaggages - 1];
+            --numBaggages;
             cout << "Baggage with owner name " << ownerName << " deleted successfully.\n";
             return;
         }
@@ -76,7 +76,7 @@ void DeleteBaggage(string ownerName)
 
 void ShowBaggages()
 {
-    for (int i = 0; i < numbaggages; ++i)
+    for (int i = 0; i < numBaggages; ++i)
     {
         cout << endl;
         cout << "Owner Name: " << baggages[i].ownerName << endl;
@@ -93,7 +93,7 @@ bool CompareByOwnerName(const Baggage& a, const Baggage& b)
 
 void SortBaggageByAlphabet()
 {
-    sort(baggages, baggages + numbaggages, CompareByOwnerName);
+    sort(baggages, baggages + numBaggages, CompareByOwnerName);
 }
 
 void SaveBaggagesToFile()
@@ -104,8 +104,8 @@ void SaveBaggagesToFile()
         cout << "Unable to open file.\n";
         return;
     }
-    outFile.write((char*)&numbaggages, sizeof(numbaggages));
-    outFile.write((char*)baggages, numbaggages * sizeof(Baggage));
+    outFile.write((char*)&numBaggages, sizeof(numBaggages));
+    outFile.write((char*)baggages, numBaggages * sizeof(Baggage));
     outFile.close();
     cout << "Baggages saved to file successfully.\n";
 }
@@ -118,31 +118,37 @@ void LoadBaggagesFromFile()
         cout << "Unable to open file or file does not exist.\n";
         return;
     }
-    inFile.read((char*)&numbaggages, sizeof(numbaggages));
-    inFile.read((char*)baggages, numbaggages * sizeof(Baggage));
+    inFile.read((char*)&numBaggages, sizeof(numBaggages));
+    inFile.read((char*)baggages, numBaggages * sizeof(Baggage));
     inFile.close();
 
     cout << "Baggages loaded from file successfully.\n";
 }
 
+void ShowVariant()
+{
+    cout << "\n Menu: \n"
+        << "1. Show Baggages \n"
+        << "2. Add Baggage \n"
+        << "3. Delete Baggage \n"
+        << "4. Modify information about Baggage \n"
+        << "5. Sorting Baggage by alphabet(owners name) \n"
+        << "6. Save to file \n"
+        << "7. Exit \n"
+        << "Enter your choice: ";
+}
+
 int main()
 {
     int choice;
+
     string ownerName;
 
     LoadBaggagesFromFile();
 
     do
     {
-        cout << "\n Menu: \n"
-            << "1. Show Baggages \n"
-            << "2. Add Baggage \n"
-            << "3. Delete Baggage \n"
-            << "4. Modify information about Baggage \n"
-            << "5. Sorting Baggage by alphabet(owners name) \n"
-            << "6. Save to file \n"
-            << "7. Exit \n"
-            << "Enter your choice: ";
+        ShowVariant();
         cin >> choice;
 
         switch (choice) {
@@ -174,22 +180,26 @@ int main()
             ModifyBaggage(ownerName);
             break;
         }
+
         case 5:
         {
             SortBaggageByAlphabet();
             cout << "the luggage was sorted \n";
             break;
         }
+
         case 6:
         {
             SaveBaggagesToFile();
             break;
         }
+
         case 7:
         {
             cout << "Exit -_-";
             break;
         }
+
         default:
         {
             cout << "Invalid choice. Please try again.\n";
