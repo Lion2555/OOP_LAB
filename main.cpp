@@ -53,7 +53,6 @@ void ModifyBaggage(string ownerName)
             cout << "Enter flight: ";
             cin >> baggages[i].flight;
             cout << "you have successfully modify information about your Baggage. \n";
-            return;
         }
     }
     cout << "luggage with owner name " << ownerName << " not here \n";
@@ -78,11 +77,11 @@ void ShowBaggages()
 {
     for (int i = 0; i < numBaggages; ++i)
     {
-        cout << endl;
-        cout << "Owner Name: " << baggages[i].ownerName << endl;
-        cout << "Weight: " << baggages[i].weight << "kg" << endl;
-        cout << "Number of Seats: " << baggages[i].numberOfSeats << endl;
-        cout << "Flight: " << baggages[i].flight << endl;
+        cout << endl
+            << "Owner Name: " << baggages[i].ownerName << endl
+            << "Weight: " << baggages[i].weight << "kg" << endl
+            << "Number of Seats: " << baggages[i].numberOfSeats << endl
+            << "Flight: " << baggages[i].flight << endl;
     }
 }
 
@@ -102,12 +101,15 @@ void SaveBaggagesToFile()
     if (!outFile)
     {
         cout << "Unable to open file.\n";
-        return;
     }
-    outFile.write((char*)&numBaggages, sizeof(numBaggages));
-    outFile.write((char*)baggages, numBaggages * sizeof(Baggage));
-    outFile.close();
-    cout << "Baggages saved to file successfully.\n";
+    else
+    {
+        outFile.write((char*)&numBaggages, sizeof(numBaggages));
+        outFile.write((char*)baggages, numBaggages * sizeof(Baggage));
+        outFile.close();
+
+        cout << "Baggages saved to file successfully.\n";
+    }
 }
 
 void LoadBaggagesFromFile()
@@ -116,26 +118,20 @@ void LoadBaggagesFromFile()
     if (!inFile)
     {
         cout << "Unable to open file or file does not exist.\n";
-        return;
     }
-    inFile.read((char*)&numBaggages, sizeof(numBaggages));
-    inFile.read((char*)baggages, numBaggages * sizeof(Baggage));
-    inFile.close();
+    else
+    {
+        inFile.read((char*)&numBaggages, sizeof(numBaggages));
+        inFile.read((char*)baggages, numBaggages * sizeof(Baggage));
+        inFile.close();
 
-    cout << "Baggages loaded from file successfully.\n";
+        cout << "Baggages loaded from file successfully.\n";
+    }
 }
 
 void ShowVariant()
 {
-    cout << "\n Menu: \n"
-        << "1. Show Baggages \n"
-        << "2. Add Baggage \n"
-        << "3. Delete Baggage \n"
-        << "4. Modify information about Baggage \n"
-        << "5. Sorting Baggage by alphabet(owners name) \n"
-        << "6. Save to file \n"
-        << "7. Exit \n"
-        << "Enter your choice: ";
+    cout << "\n Menu: \n" "1. Show Baggages \n" << "2. Add Baggage \n" << "3. Delete Baggage \n" << "4. Modify information about Baggage \n" << "5. Sorting Baggage by alphabet(owners name) \n" << "6. Save to file \n" << "7. Exit \n" << "Enter your choice: ";
 }
 
 int main()
@@ -203,9 +199,6 @@ int main()
         default:
         {
             cout << "Invalid choice. Please try again.\n";
-            break;
-        }
-
         }
     } while (choice != 7);
 
