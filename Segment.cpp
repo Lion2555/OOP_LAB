@@ -33,7 +33,5 @@ istream& operator>>(istream& in, Segment& s)
 void Segment::increaseLength(double amount)
 {
     if (amount > 0)
-    {
         length += amount;
-    }
 }
